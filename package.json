@@ -1,6 +1,6 @@
 {
   "name": "angular-checkboxes",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Bind a list of checkboxes to a unique ng-model array",
   "main": "angular-checkboxes.js",
   "scripts": {
@@ -34,9 +34,7 @@
     "grunt-karma": "^0.11.2",
     "jshint-stylish": "^2.0.1",
     "karma": "^0.12.37",
-    "karma-chrome-launcher": "^0.2.0",
     "karma-coverage": "^0.4.2",
-    "karma-firefox-launcher": "^0.1.6",
     "karma-jasmine": "^0.1.6",
     "karma-phantomjs-launcher": "^0.2.0",
     "karma-spec-reporter": "0.0.20",

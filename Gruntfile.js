@@ -49,15 +49,15 @@ module.exports = function (grunt) {
       unit: {
         frameworks: ['jasmine'],
         singleRun: true,
-        browsers: ['PhantomJS', 'Chrome', 'Firefox'],
+        browsers: ['PhantomJS'],
         reporters: ['spec', 'coverage'],
         // logLevel: 'DEBUG',
         plugins: [
           'karma-spec-reporter',
           'karma-jasmine',
           'karma-phantomjs-launcher',
-          'karma-chrome-launcher',
-          'karma-firefox-launcher',
+          // 'karma-chrome-launcher',
+          // 'karma-firefox-launcher',
           'karma-coverage'
         ],
         preprocessors: {
@@ -80,7 +80,6 @@ module.exports = function (grunt) {
   grunt.registerTask('test', [
     'jshint:all',
     'karma:unit',
-    'watch'
   ]);
 
 
