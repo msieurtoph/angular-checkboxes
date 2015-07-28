@@ -36,6 +36,24 @@ angular.module('msieurtoph.ngCheckboxes', [])
                 ngModelCtrl = ctrls[2]
             ;
 
+            // Check the checkbox or uncheck!
+            // init isChecked value, set local state/model and report to parent Model
+            function check(value){
+                ctrl.isChecked = value;
+                if (hasNgModel) {
+                    ngModelCtrl.$setViewValue(ctrl.isChecked);
+                } else {
+                    element.prop('checked', ctrl.isChecked);
+                }
+
+                var index = parentCtrl.$modelValue.indexOf(ctrl.value);
+                if (ctrl.isChecked && index === -1){
+                    parentCtrl.$modelValue.push(ctrl.value);
+                } else if (!ctrl.isChecked && index !== -1) {
+                    parentCtrl.$modelValue.splice(index, 1);
+                }
+            }
+
             // watch change in the parent Model (= the array)
             // and then call check() ...
             scope.$watchCollection(function(){
@@ -64,23 +82,6 @@ angular.module('msieurtoph.ngCheckboxes', [])
                 });
             }
 
-            // Check the checkbox or uncheck!
-            // init isChecked value, set local state/model and report to parent Model
-            function check(value){
-                ctrl.isChecked = value;
-                if (hasNgModel) {
-                    ngModelCtrl.$setViewValue(ctrl.isChecked);
-                } else {
-                    element.prop('checked', ctrl.isChecked);
-                }
-
-                var index = parentCtrl.$modelValue.indexOf(ctrl.value);
-                if (ctrl.isChecked && index === -1){
-                    parentCtrl.$modelValue.push(ctrl.value);
-                } else if (!ctrl.isChecked && index !== -1) {
-                    parentCtrl.$modelValue.splice(index, 1);
-                }
-            }
 
         }
     };
