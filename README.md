@@ -48,7 +48,7 @@ myUniqueModel= [
 ];
 ```
 
-Let's push `value3` to myUniqueModel now, and you will check the *Value 3* checkbox.
+Let's push `value3` to `myUniqueModel` now, and you will check the *Value 3* checkbox.
 
 Pretty cool, no ?
 
