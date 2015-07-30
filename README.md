@@ -1,5 +1,5 @@
 # angular-checkboxes
-Bind a list of checkboxes to a unique ng-model
+Bind a list of checkboxes to a unique ng-model array.
 
 [![npm version](https://badge.fury.io/js/angular-checkboxes.svg)](http://badge.fury.io/js/angular-checkboxes)
 [![Build Status](http://img.shields.io/travis/msieurtoph/angular-checkboxes.svg)](https://travis-ci.org/msieurtoph/angular-checkboxes) [![Code Climate](https://codeclimate.com/github/msieurtoph/angular-checkboxes/badges/gpa.svg)](https://codeclimate.com/github/msieurtoph/angular-checkboxes) [![Test Coverage](https://codeclimate.com/github/msieurtoph/angular-checkboxes/badges/coverage.svg)](https://codeclimate.com/github/msieurtoph/angular-checkboxes)
