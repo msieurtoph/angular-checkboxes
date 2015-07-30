@@ -27,7 +27,6 @@ angular.module('msieurtoph.ngCheckboxes', [])
 
         }],
 
-
         link: function(scope, element, attrs, ctrls){
 
             var ctrl = ctrls[0],
@@ -36,10 +35,16 @@ angular.module('msieurtoph.ngCheckboxes', [])
                 ngModelCtrl = ctrls[2]
             ;
 
-            // Check the checkbox or uncheck!
+            // add method to the controller to check/uncheck the checkbox!
             // init isChecked value, set local state/model and report to parent Model
-            function check(value){
+            ctrl.check = function(value){
+
+                if ('boolean' !== typeof value ){
+                    throw new TypeError('mtCheckboxController, method check(value): value must be a boolean');
+                }
+
                 ctrl.isChecked = value;
+
                 if (hasNgModel) {
                     ngModelCtrl.$setViewValue(ctrl.isChecked);
                 } else {
@@ -52,14 +57,14 @@ angular.module('msieurtoph.ngCheckboxes', [])
                 } else if (!ctrl.isChecked && index !== -1) {
                     parentCtrl.$modelValue.splice(index, 1);
                 }
-            }
+            };
 
             // watch change in the parent Model (= the array)
             // and then call check() ...
             scope.$watchCollection(function(){
                 return parentCtrl.$modelValue;
             }, function(newV){
-                check(angular.isArray(newV) && newV.indexOf(ctrl.value) !== -1);
+                ctrl.check(angular.isArray(newV) && newV.indexOf(ctrl.value) !== -1);
             });
 
             // watch ngModel change if supplied, or DOM interaction if not.
@@ -67,19 +72,22 @@ angular.module('msieurtoph.ngCheckboxes', [])
             if (hasNgModel){
 
                 // init ngModel if not
-                if ('boolean' !== typeof ngModelCtrl){
-                    check(ctrl.isChecked);
+                if ('boolean' !== typeof ngModelCtrl.$modelValue){
+                    ctrl.check(ctrl.isChecked);
                 }
                 // and add validator to update isChecked
                 ngModelCtrl.$validators.setIsChecked = function(value){
-                    check(value);
+                    ctrl.check(value);
                     return true;
                 };
+
             } else {
+
                 element.prop('checked', ctrl.isChecked);
                 element.on('change', function(){
-                    check(!ctrl.isChecked);
+                    ctrl.check(!ctrl.isChecked);
                 });
+
             }
 
 

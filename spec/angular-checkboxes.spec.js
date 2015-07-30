@@ -33,7 +33,7 @@ describe('mtCheckbox directive', function() {
         parent.scope.$digest();
     }
 
-    it('should get the right item value', function(){
+    it('should publish `mtCheckboxController.value`', function(){
 
         compileParent([
             '<input type="checkbox" mt-checkbox />',
@@ -52,7 +52,55 @@ describe('mtCheckbox directive', function() {
 
     });
 
-    it('should watch parentModel and update the isChecked controller property', function(){
+    it('should publish `mtCheckboxController.isChecked`', function(){
+
+        compileParent([
+            '<input type="checkbox" mt-checkbox />'
+        ]);
+
+        expect(children[0].controller('mtCheckbox').isChecked).toBe(false);
+
+    });
+
+    it('should publish `mtCheckboxController.check()`', function(){
+
+        compileParent([
+            '<input type="checkbox" mt-checkbox name="nameAttr1" />',
+            '<input type="checkbox" mt-checkbox name="nameAttr2" ng-model="checkboxModel" />',
+            '<input type="checkbox" mt-checkbox name="nameAttr3" />'
+        ]);
+
+        expect(children[0].prop('checked')).toBe(false);
+
+        children[0].controller('mtCheckbox').check(true);
+        expect(children[0].controller('mtCheckbox').isChecked).toBe(true);
+        expect(children[0].prop('checked')).toBe(true);
+        expect(parent.scope.parentModel).toEqual(['nameAttr1']);
+
+        children[0].controller('mtCheckbox').check(false);
+        expect(children[0].controller('mtCheckbox').isChecked).toBe(false);
+        expect(children[0].prop('checked')).toBe(false);
+        expect(parent.scope.parentModel).toEqual([]);
+
+        expect(parent.scope.checkboxModel).toEqual(false);
+
+        children[1].controller('mtCheckbox').check(true);
+        expect(children[1].controller('mtCheckbox').isChecked).toBe(true);
+        expect(parent.scope.checkboxModel).toEqual(true);
+        expect(parent.scope.parentModel).toEqual(['nameAttr2']);
+
+        children[1].controller('mtCheckbox').check(false);
+        expect(children[1].controller('mtCheckbox').isChecked).toBe(false);
+        expect(parent.scope.checkboxModel).toEqual(false);
+        expect(parent.scope.parentModel).toEqual([]);
+
+        expect(function(){
+            children[2].controller('mtCheckbox').check('not boolean value');
+        }).toThrow(new TypeError('mtCheckboxController, method check(value): value must be a boolean'));
+
+    });
+
+    it('should watch parentModel and call `mtCheckboxController.check()`', function(){
 
         compileParent([
             '<input type="checkbox" mt-checkbox name="value1" />',
@@ -74,24 +122,7 @@ describe('mtCheckbox directive', function() {
 
     });
 
-    it('should also update local ngModel when parentModel change', function(){
-
-        compileParent([
-            '<input type="checkbox" mt-checkbox name="value1" data-ng-model="checkbox1" />',
-            '<input type="checkbox" mt-checkbox name="value2" data-ng-model="checkbox2" />',
-            '<input type="checkbox" mt-checkbox name="value3" data-ng-model="checkbox3" />'
-        ], ['value1', 'value3']);
-
-        expect(parent.scope.checkbox1).toBe(true);
-        expect(parent.scope.checkbox2).toBe(false);
-        expect(parent.scope.checkbox3).toBe(true);
-        expect(children[0].controller('mtCheckbox').isChecked).toBe(true);
-        expect(children[1].controller('mtCheckbox').isChecked).toBe(false);
-        expect(children[2].controller('mtCheckbox').isChecked).toBe(true);
-
-    });
-
-    it ('should report any local change to the parent array', function(){
+    it ('should catch any checkbox modification and call `mtCheckboxController.check()`', function(){
 
         compileParent([
             '<input type="checkbox" mt-checkbox name="value1" />',
