@@ -1,0 +1,10 @@
+.tab-content {
+  padding: 0.5em;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  background:white;
+}
+
+h3 .fa-anchor {opacity:0;}
+h3:hover .fa-anchor {opacity:1;}
