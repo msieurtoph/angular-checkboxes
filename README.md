@@ -6,21 +6,21 @@ Bind a list of checkboxes to a unique ng-model array.
 
 [![dependency Status](http://img.shields.io/david/msieurtoph/angular-checkboxes.svg?style=flat)](https://david-dm.org/msieurtoph/angular-checkboxes#info=dependencies) [![devDependency Status](http://img.shields.io/david/dev/msieurtoph/angular-checkboxes.svg?style=flat)](https://david-dm.org/msieurtoph/angular-checkboxes#info=devDependencies)
 
-## Démo
-
-http://msieurtoph.github.io/angular-checkboxes
-
 ## What is it?
 
 If you are used to manipulate HTML forms, you probably know that each checkbox is a separate variable (or maybe an ngModel with AngularJS).
 
 Sometimes, it could be usefull to manipulate all these checkboxes as a unique array.
 
-`angular.checkboxes` module lets you turn your list of checkboxes into a unique parent ngModel, providing :
-* **two-way binding**: manipulate parent ngModel will check/uncheck the checkboxes AND check/uncheck the checkboxes will modify the parent ngModel.
-* **possibility to add post-processing tasks on the parent ngModel**: like those coming with the native angular ngModelController (validators, parsers, formatters, etc ...).
+`angular.checkboxes` module lets you turn your list of checkboxes into a unique destination array, providing :
+* **two-way binding**: manipulate parent ngModel will check/uncheck the checkboxes AND check/uncheck the checkboxes will modify the destination array.
+* **possibility to add post-processing tasks on the destination array**: like those coming with the native angular ngModelController (validators, parsers, formatters, etc ...).
 * **no isolated scope for each checkbox**: the directive does not create new child scope.
 * **a mtCheckboxController**: internal controller can be injected to other directives and give them the control on this one.
+
+## Demos & usage
+
+http://msieurtoph.github.io/angular-checkboxes
 
 ## Simple Example
 
@@ -29,7 +29,7 @@ Please, visit http://msieurtoph.github.io/angular-checkboxes for live examples.
 ```html
 <form>
     ...
-    <div ng-model="myUniqueModel">
+    <div mt-to="myUniqueArray">
         <input type="checkbox" mt-checkbox name="value1" /> Value 1 <br/>
         <input type="checkbox" mt-checkbox name="value2" /> Value 2 <br/>
         <input type="checkbox" mt-checkbox name="value3" /> Value 3 <br/>
@@ -42,13 +42,13 @@ Please, visit http://msieurtoph.github.io/angular-checkboxes for live examples.
 Let's check *Value 1* and *Value 2*, and you will get (in the current scope):
 
 ```javascript
-myUniqueModel= [
+myUniqueArray= [
     "value1",
     "value2"
 ];
 ```
 
-Let's push `value3` to `myUniqueModel` now, and you will check the *Value 3* checkbox.
+Let's push `value3` to `myUniqueArray` now, and you will check the *Value 3* checkbox.
 
 Pretty cool, no ?
 
@@ -60,41 +60,40 @@ Don't care about that, the module takes it in charge. Just use it/them if you ne
 
 ## mtCheckboxController
 
-The directive provides a `controller`. It publishes :
+The directive `mtCheckbox` provides a `controller`. It publishes :
 
 * `value` (string)
 
-  The value that will be pushed to/shifted from the parent ngModel for this checkbox. See [Allowed Syntaxes](#allowed-syntaxes) to know how to initialize it.
+  The value that will be pushed to/shifted from the destination array for this checkbox. See [the demo page](http://msieurtoph.github.io/angular-checkboxes/) to know how to initialize it.
 
-* `isChecked` (boolean)
+* `state` (boolean)
 
-  It tells if the checkbox is currently checked or not
+  It tells if the checkbox is currently checked or not.
+  It is better not to change this `state` manually and prefer the `set(state)` method.
 
-* `check(value)` (function(boolean))
+* `set(state)` (function(boolean))
 
-  It allows external directives to check (`value=true`) or uncheck (`value=false`) the checkbox programmatically. Any other non-boolean `value` will throw an error.
+  It allows external directives to check (`value=true`) or uncheck (`value=false`) the checkbox programmatically. Any other non-boolean `value` will do nothing.
 
-## Allowed syntaxes
+The directive `mtTo` provides a `controller` too. It publishes :
 
-All these syntaxes can be used :
+* `get()` (function())
 
-```html
-    <div ngModel="parentModel">
+  The _getter_ for the destination array.
 
-        <input type="checkbox" mt-checkbox />
-        <!-- value = 'Checkbox_*'; * is an auto-incremented integer !-->
+* `set(list)` (function(array))
 
-        <input type="checkbox" mt-checkbox name="nameValue" />
-        <!-- value = 'nameValue' !-->
+  The _setter_ for the destination array. The provided array will replace the existing one.
 
-        <input type="checkbox" mt-checkbox="dirValue" />
-        <!-- value = 'dirValue' !-->
+* `indexOf(elt)` (function(elt))
 
-        <input type="checkbox" mt-checkbox="dirValue" name="nameValue" />
-        <!-- value = 'dirValue'; mt-checkbox value overrides name attribute !-->
+  To get the index of the provided element in the destination array.
 
-        <input type="checkbox" mt-checkbox name="nameValue" ng-model="checkboxModel" />
-        <!-- in addition, directive supports native checkbox ngModel -->
+* `add(elt)` (function(elt))
 
-    </div>
-```
+  To push an element to the destination array, except if the element is already added.
+
+* `remove(elt)` (function(elt))
+
+  To remove an element from the destination array, if present.
+
