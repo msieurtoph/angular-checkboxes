@@ -17,7 +17,7 @@ angular.module('msieurtoph.ngCheckboxes', [])
 
             this.set = function(list){
                 return setter($scope, angular.copy(list));
-            }
+            };
 
             this.indexOf = function(elt){
                 var list = _this.get();
@@ -32,10 +32,10 @@ angular.module('msieurtoph.ngCheckboxes', [])
             this.add = function(elt){
                 $timeout(function(){
                     if (-1 === _this.indexOf(elt)){
-                        var list = _this.get();;
+                        var list = _this.get();
                         list.push(elt);
                         _this.set(list);
-                    };
+                    }
                 });
             };
 
@@ -46,15 +46,15 @@ angular.module('msieurtoph.ngCheckboxes', [])
                         var list = _this.get();
                         list.splice(index, 1);
                         _this.set(list);
-                    };
+                    }
                 });
             };
 
         }]
-    }
+    };
 }])
 
-.directive('mtCheckbox', ['$timeout', function ($timeout) {
+.directive('mtCheckbox', [function () {
 
     var internalCount = 0;
     function uniqName(){
@@ -67,13 +67,32 @@ angular.module('msieurtoph.ngCheckboxes', [])
 
         controller: ['$attrs', '$parse', '$scope', function($attrs, $parse, $scope){
 
-            this.value = '' === $attrs.mtCheckbox ?
-                (!!$attrs.name && '' !== $attrs.name ?
-                    $attrs.name
-                    : uniqName()
-                )
-                : $parse($attrs.mtCheckbox)($scope)
+            var getter = $parse($attrs.mtCheckbox),
+                setter = getter.assign
             ;
+
+            if ('' === $attrs.mtCheckbox) {
+
+                this.value = !!$attrs.name && '' !== $attrs.name ? $attrs.name : uniqName();
+
+            } else if (!angular.isFunction(setter)) {
+
+                this.value = getter($scope);
+
+            } else {
+
+                Object.defineProperty(this, 'value', {
+                    enumerable: true,
+                    get: function(){
+                        return getter($scope);
+                    },
+                    set: function(val){
+                        setter($scope, val);
+                    }
+                });
+
+            }
+
 
             // state is undefined until the first control;
             this.state = undefined;
@@ -104,8 +123,8 @@ angular.module('msieurtoph.ngCheckboxes', [])
 
                 } else {
 
-                    element.on('change', function(e){
-                        ctrl.set(e.target.checked);
+                    element.on('change', function(){
+                        ctrl.set(!ctrl.state);
                     });
 
                 }
@@ -115,7 +134,7 @@ angular.module('msieurtoph.ngCheckboxes', [])
                 // watch changes in the dest Model (= the array)
                 // and then call set() ...
                 scope.$watchCollection(function (){
-                    return -1 !== destCtrl.indexOf(ctrl.value)
+                    return -1 !== destCtrl.indexOf(ctrl.value);
                 }, function(newV){
                     ctrl.set(newV);
                 });
@@ -134,7 +153,7 @@ angular.module('msieurtoph.ngCheckboxes', [])
                     }
 
                     // abort if the ckeck/uncheck is already performed
-                    if (ctrl.state === state){
+                    if (ctrl.state === state || 'boolean' !== typeof state){
                         return;
                     }
 
