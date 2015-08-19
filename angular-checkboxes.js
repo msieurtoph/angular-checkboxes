@@ -67,15 +67,19 @@ angular.module('msieurtoph.ngCheckboxes', [])
 
         controller: ['$attrs', '$parse', '$scope', function($attrs, $parse, $scope){
 
+            var getter = $parse($attrs.mtCheckbox),
+                setter = getter.assign
+            ;
+
             if ('' === $attrs.mtCheckbox) {
 
                 this.value = !!$attrs.name && '' !== $attrs.name ? $attrs.name : uniqName();
 
-            } else {
+            } else if (!angular.isFunction(setter)) {
 
-                var getter = $parse($attrs.mtCheckbox),
-                    setter = getter.assign
-                ;
+                this.value = getter($scope);
+
+            } else {
 
                 Object.defineProperty(this, 'value', {
                     enumerable: true,
