@@ -1,6 +1,6 @@
 {
   "name": "angular-checkboxes",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Bind a list of checkboxes to a unique ng-model array",
   "main": "angular-checkboxes.js",
   "scripts": {
