@@ -82,6 +82,9 @@ The directive `mtCheckbox` provides a `controller`. It publishes :
 
   It allows external directives to check (`value=true`) or uncheck (`value=false`) the checkbox programmatically. Any other non-boolean `value` will do nothing.
 
+
+## mtToController
+
 The directive `mtTo` provides a `controller` too. It publishes :
 
 * `get()` (function())
