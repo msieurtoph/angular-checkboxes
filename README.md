@@ -12,7 +12,7 @@ If you are used to manipulate HTML forms, you probably know that each checkbox i
 
 Sometimes, it could be usefull to manipulate all these checkboxes as a unique array.
 
-`angular.checkboxes` module lets you turn your list of checkboxes into a unique destination array, providing :
+`msieurtoph.ngCheckboxes` module lets you turn your list of checkboxes into a unique destination array, providing :
 * **two-way binding**: manipulate the destination array will check/uncheck the checkboxes AND check/uncheck the checkboxes will modify the destination array.
 * **no isolated scope for each checkbox**: the directive does not create new child scope.
 * **a mtCheckboxController**: internal controller can be injected to other directives.
