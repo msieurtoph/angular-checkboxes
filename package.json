@@ -1,6 +1,6 @@
 {
   "name": "angular-checkboxes",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Bind a list of checkboxes to a unique ng-model array",
   "main": "angular-checkboxes.js",
   "scripts": {
@@ -26,20 +26,21 @@
   },
   "homepage": "https://github.com/msieurtoph/angular-checkboxes#readme",
   "devDependencies": {
-    "angular": "^1.4.3",
-    "angular-mocks": "^1.4.3",
-    "grunt": "^0.4.5",
-    "grunt-contrib-jshint": "^0.11.2",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-karma": "^0.12.0",
-    "jshint-stylish": "^2.0.1",
-    "karma": "^0.13.9",
-    "karma-coverage": "^0.5.0",
-    "karma-jasmine": "^0.3.6",
-    "karma-phantomjs-launcher": "^0.2.1",
-    "karma-spec-reporter": "0.0.20",
-    "load-grunt-tasks": "^3.2.0",
-    "phantomjs": "^1.9.18",
-    "time-grunt": "^1.2.1"
+    "angular": "^1.6.5",
+    "angular-mocks": "^1.6.5",
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-karma": "^2.0.0",
+    "jasmine-core": "^2.7.0",
+    "jshint-stylish": "^2.2.1",
+    "karma": "^1.7.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-spec-reporter": "0.0.31",
+    "load-grunt-tasks": "^3.5.2",
+    "phantomjs": "^2.1.7",
+    "time-grunt": "^1.4.0"
   }
 }
